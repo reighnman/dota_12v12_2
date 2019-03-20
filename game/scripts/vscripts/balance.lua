@@ -22,7 +22,7 @@ Timers:CreateTimer("timerPlayerCounts", {
 
 --This shouldn't be here but we can organize later
 Timers:CreateTimer("timerGoldBonus", {
-    endTime = 3, --begin roughly 5min in
+    endTime = 390, --begin roughly 5min in
     callback = function()
         if (GOODGUYSQTY < BADGUYSQTY) then
             local multi = BADGUYSQTY - GOODGUYSQTY
