@@ -1,0 +1,9 @@
+"addon"
+{
+	"Language" "english"
+	"Tokens"
+	{
+	
+		"initiated_votekick"						"initiated_votekick"
+	}
+}

@@ -1,0 +1,8 @@
+"addon"
+{
+	"Language" "russian"
+	"Tokens"
+	{
+
+	}
+}
