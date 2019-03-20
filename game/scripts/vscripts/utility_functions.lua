@@ -160,3 +160,23 @@ function CountPlayers()
     end
     return count
  end
+
+ function GetActivePlayerCountForTeam(team)
+    local number = 0
+    for x=0,DOTA_MAX_TEAM do
+        local pID = PlayerResource:GetNthPlayerIDOnTeam(team,x)
+        if PlayerResource:IsValidPlayerID(pID) and (PlayerResource:GetConnectionState(pID) == 1 or PlayerResource:GetConnectionState(pID) == 2) then
+            number = number + 1
+        end
+    end
+    return number
+end
+
+function otherTeam(team)
+    if team == DOTA_TEAM_BADGUYS then
+        return DOTA_TEAM_GOODGUYS
+    elseif team == DOTA_TEAM_GOODGUYS then
+        return DOTA_TEAM_BADGUYS
+    end
+    return -1
+end

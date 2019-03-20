@@ -25,9 +25,9 @@ ChatCommand:LinkCommand("-commands", "HelpCommands")
 ChatCommand:LinkCommand("-?", "HelpCommands")
 
 function HelpCommands(keys)
-print ('help')
   GameRules:SendCustomMessage("<B><font color='#FFFF00'> -list : List player ID's, the ID of the player can be used for vote kicking.", 0, 0)
   GameRules:SendCustomMessage("<B><font color='#FFFF00'> -votekick [PlayerID] : Start a vote to kick [PlayerID].", 0, 0)
+  GameRules:SendCustomMessage("<B><font color='#FFFF00'> -goldbonus : Check if gold bonus is in effect for underdog team.", 0, 0)
 end
 
 --InitiateVoteKick
@@ -129,8 +129,6 @@ function ListPlayers(keys)
     for i=0, 23 do
       playerTable[i] = 0
     end
-    
-    local number = 0
     
     for t=2, 3 do
         for x=0,DOTA_MAX_TEAM do

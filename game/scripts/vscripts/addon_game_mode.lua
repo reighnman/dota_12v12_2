@@ -7,11 +7,12 @@ local XP_SCALE_FACTOR_FINAL = 2
 local XP_SCALE_FACTOR_FADEIN_SECONDS = (60 * 60) -- 60 minutes
 
 require( 'timers' )
-require("util")
+require( 'util' )
 require( 'chatcommand' )
 require( 'votekick' )
-require("statcollection/init")
-require("utility_functions")
+require( 'balance' )
+require( 'statcollection/init' )
+require( 'utility_functions' )
 
 LinkLuaModifier("modifier_core_courier", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_donator", LUA_MODIFIER_MOTION_NONE)
