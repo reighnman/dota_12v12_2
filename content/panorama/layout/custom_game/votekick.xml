@@ -1,0 +1,32 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/votekick.css" />
+	</styles>
+ 	<scripts>
+	    <include src="file://{resources}/scripts/custom_game/votekick.js" />
+	</scripts>
+ 	<Panel hittest="false" class="VoteKickRoot">
+ 		<Panel hittest="true" id="VoteKickWindow">
+			<Panel hittest="true" id="VoteKickHeader" class="VoteKickHeader">
+					<Label id="VoteKickLabel" class="VoteKickLabel" text="#votekick_initiated"/>
+                    <Label id="VoteKickInitiatedByLabel" class="VoteKickInitiatedByLabel" text="#votekick_initiated_by"/>
+					<Label id="VoteKickInitiator" class="VoteKickInitiator" text="abc" />
+					<Button id="VoteKickCloseButton" onactivate="OnVoteKickCloseButtonPressed()" class="VoteKickCloseButton">
+						<Image id="close_bg" src="file://{resources}/images/custom_game/close.png" />
+					</Button>
+			</Panel>
+			<Panel hittest="true" class="VoteKickBody">
+				<Label id="VoteKickTargetLabel" class="VoteKickTargetLabel" text="#votekick_target"/>
+				<Label id="VoteKickVictim" class="VoteKickVictim" text="abc" />
+				<Button hittest="true" class="VoteKickYes" onactivate="OnVoteKickYesButtonPressed()">
+					<Label id="VoteKickYesLabel" class="VoteKickYesLabel" text="#votekick_yes" />
+				</Button>
+				<Button hittest="true" class="VoteKickNo" onactivate="OnVoteKickNoButtonPressed()">
+					<Label id="VoteKickNoLabel" class="VoteKickNoLabel" text="#votekick_no" />
+				</Button>
+			</Panel>
+			<Panel hittest="true" class="VoteKickFooter">
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

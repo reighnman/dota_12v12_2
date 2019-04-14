@@ -8,14 +8,14 @@ local XP_SCALE_FACTOR_FADEIN_SECONDS = (60 * 60) -- 60 minutes
 
 require( 'timers' )
 require( 'util' )
-require( 'chatcommand' )
 require( 'votekick' )
 require( 'balance' )
 require( 'statcollection/init' )
 require( 'utility_functions' )
+require( 'dev')
 
 LinkLuaModifier("modifier_core_courier", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_donator", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_silencer_new_int_steal", LUA_MODIFIER_MOTION_NONE)
 
 if CMegaDotaGameMode == nil then
 	_G.CMegaDotaGameMode = class({}) -- put CMegaDotaGameMode in the global scope
@@ -56,8 +56,6 @@ function CMegaDotaGameMode:InitGameMode()
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap(CMegaDotaGameMode, 'OnGameRulesStateChange'), self)
 	ListenToGameEvent( "npc_spawned", Dynamic_Wrap( CMegaDotaGameMode, "OnNPCSpawned" ), self )
 	ListenToGameEvent( "entity_killed", Dynamic_Wrap( CMegaDotaGameMode, 'OnEntityKilled' ), self )
-	
-	ChatCommand:Init() 
 
 	self.m_CurrentGoldScaleFactor = GOLD_SCALE_FACTOR_INITIAL
 	self.m_CurrentXpScaleFactor = XP_SCALE_FACTOR_INITIAL
@@ -116,6 +114,7 @@ function CMegaDotaGameMode:InitGameMode()
 		false
 	}
 	CustomGameEventManager:RegisterListener("GetKicks", Dynamic_Wrap(CMegaDotaGameMode, 'GetKicks'))
+	CustomGameEventManager:RegisterListener("OnTimerClick", Dynamic_Wrap(CMegaDotaGameMode, 'OnTimerClick'))
 end
 
 function GetActivePlayerCountForTeam(team)
@@ -209,6 +208,7 @@ function CMegaDotaGameMode:OnNPCSpawned( event )
 		Timers:CreateTimer(1, function()
 			if spawnedUnit:HasModifier("modifier_silencer_int_steal") then
 				spawnedUnit:RemoveModifierByName('modifier_silencer_int_steal')	
+				spawnedUnit:AddNewModifier(spawnedUnit, nil, "modifier_silencer_new_int_steal", {})
 			end
 		end)
 		
@@ -255,10 +255,30 @@ function CMegaDotaGameMode:RuneSpawnFilter(kv)
 	return true
 end
 
+CustomGameEventManager:RegisterListener("initiate_vote_kick", function(_, data)
+	local victim = data.victim
+	if PlayerResource:IsValidPlayerID(victim) then
+      local initiator = data.initiator
+	  InitiateVoteKick(initiator, victim)
+	end
+end)
+
+CustomGameEventManager:RegisterListener("cast_vote", function(_, data)
+	local playerId = data.playerId
+	local result = data.result
+	SubmitVote(playerId, result)
+end)
+
+CustomGameEventManager:RegisterListener("update_bonus_gold_display", function(_, data)
+	local playerId = data.playerId
+	local result = data.result
+	SubmitVote(playerId, result)
+end)
+
 CustomGameEventManager:RegisterListener("set_disable_help", function(_, data)
 	local to = data.to;
 	if PlayerResource:IsValidPlayerID(to) then
-		local playerId = data.PlayerID;
+		local playerId = data.PlayerID
 		local disable = data.disable == 1
 		PlayerResource:SetUnitShareMaskForPlayer(playerId, to, 4, disable)
  		local disableHelp = CustomNetTables:GetTableValue("disable_help", tostring(playerId)) or {}
@@ -404,19 +424,80 @@ function CMegaDotaGameMode:GetKicks( data )
 end
 
 function CMegaDotaGameMode:ExecuteOrderFilter(filterTable)
+	local target = nil
 	local order_type = filterTable.order_type
 	local playerId = filterTable.issuer_player_id_const
 	local ability = EntIndexToHScript(filterTable.entindex_ability)
-	local unit = EntIndexToHScript(filterTable.units["0"])
+	local unit = nil
+	local abilityname = nil
+	if ability and ability.GetAbilityName then
+		abilityname = ability:GetAbilityName()
+	end
 
-	if unit:IsCourier() then
-		if (order_type == DOTA_UNIT_ORDER_DROP_ITEM or order_type == DOTA_UNIT_ORDER_GIVE_ITEM) and ability and ability:IsItem() then
-			local purchaser = ability:GetPurchaser()
-			if purchaser and purchaser:GetPlayerID() ~= playerId then
-				CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(playerId), "display_custom_error", { message = "Can't drop" })
+	if filterTable.units ~= nil then
+		if filterTable.units["0"] ~= nil then
+			unit = EntIndexToHScript(filterTable.units["0"])
+		end
+	end
+	if filterTable.entindex_target and filterTable.entindex_target ~= 0 then
+		target = EntIndexToHScript(filterTable.entindex_target)
+	end
+
+	if order_type == DOTA_UNIT_ORDER_CAST_TARGET then
+		if ability and target and unit then
+			if PlayerResource:IsDisableHelpSetForPlayerID(target:GetPlayerOwnerID(), unit:GetPlayerOwnerID()) and (ability:GetName() == "oracle_fates_edict" or ability:GetName() == "oracle_purifying_flames") then
+				DisplayError(unit:GetPlayerOwnerID(), "dota_hud_error_target_has_disable_help")
 				return false
 			end
 		end
 	end
+
+	if order_type == DOTA_UNIT_ORDER_CAST_POSITION then
+		if abilityname == "item_ward_dispenser" or abilityname == "item_ward_sentry" or abilityname == "item_ward_observer" then
+			local list = Entities:FindAllByClassname("trigger_multiple")
+			local orderVector = Vector(filterTable.position_x, filterTable.position_y, 0)
+			local fs = {
+				Vector(5000,6912,0),
+				Vector(-5300,-6938,0)
+			}
+			if PlayerResource:GetTeam(playerId) == 2 then
+				fs = {fs[2],fs[1]}
+			end
+			for i=1,#list do
+				if list[i]:GetName():find("neutralcamp") ~= nil then
+					if IsInTriggerBox(list[i], 12, orderVector) and ( fs[1] - orderVector ):Length2D() < ( fs[2] - orderVector ):Length2D() then
+						CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(playerId), "display_custom_error", { message = "#block_spawn_error" })
+						return false
+					end
+				end
+			end
+		end
+	end
+
+	if unit then
+		if unit:IsCourier() then
+			if (order_type == DOTA_UNIT_ORDER_DROP_ITEM or order_type == DOTA_UNIT_ORDER_GIVE_ITEM) and ability and ability:IsItem() then
+				local purchaser = ability:GetPurchaser()
+				if purchaser and purchaser:GetPlayerID() ~= playerId then
+					--CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(playerId), "display_custom_error", { message = "#hud_error_courier_cant_order_item" })
+					return false
+				end
+			end
+		end
+	end
 	return true
-end 
+end
+
+msgtimer = {}
+function CMegaDotaGameMode:OnTimerClick(keys)
+	print(GameRules:GetGameTime())
+	if msgtimer[keys.id] ~= nil then
+		if GameRules:GetGameTime() - msgtimer[keys.id] > 3 then
+			Say(PlayerResource:GetPlayer(keys.id), keys.time, true)
+			msgtimer[keys.id] = GameRules:GetGameTime()
+		end
+	else
+		Say(PlayerResource:GetPlayer(keys.id), keys.time, true)
+		msgtimer[keys.id] = GameRules:GetGameTime()
+	end
+end

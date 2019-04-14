@@ -1,0 +1,136 @@
+.VoteKickRoot
+{
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+}
+
+#VoteKickWindow
+{
+	width: 300px;
+	height: 120px;
+ 	border-style: solid;
+	border-width: 1.5px;
+	background-image: url("s2r://panorama/images/hud/reborn/ability_bg_psd.vtex");
+	background-color: #263238;
+	background-size: 100%;
+	opacity: 1.2;
+ 	align: right center;
+	flow-children: down;
+    margin-top: -300px;
+	margin-right: 20px;
+	visibility: collapse;
+}
+
+.VoteKickHeader {
+	width: 100%;
+	height: 35px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #f96854 ), to( #f96854 ) );
+    background-image: url("s2r://panorama/images/backgrounds/background_play_button_2x_png.vtex");
+    padding-left: 10px;
+}
+
+.VoteKickLabel {
+    align: center center;
+	color: white;
+	font-size: 16px;
+	text-shadow: 2px 2px 2px black;
+	font-weight: bold;
+    margin-top: -5px;
+	text-overflow: clip;
+    text-transform: uppercase;
+    text-overflow: clip;
+}
+
+.VoteKickInitiatedByLabel {
+	vertical-align: center;
+	horizontal-align: left;
+	color: white;
+	font-size: 12px;
+	text-shadow: 2px 2px 2px black;
+	font-weight: bold;
+	margin-top: 20px;
+	text-overflow: clip;
+    text-transform: uppercase;
+}
+
+#VoteKickInitiator {
+	vertical-align: center;
+	horizontal-align: left;
+	color: white;
+	font-size: 12px;
+	text-shadow: 2px 2px 2px black;
+	font-weight: bold;
+	margin-top: 20px;
+	margin-left: 20px;
+	text-overflow: clip;
+    text-transform: uppercase;
+}
+
+.VoteKickBody {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 4px;
+}
+
+.VoteKickTargetLabel {
+	horizontal-align: left;
+	color: rgb(236, 204, 22);
+	font-size: 16px;
+	text-shadow: 2px 2px 2px black;
+	font-weight: bold;
+	text-overflow: clip;
+    text-transform: uppercase;
+}
+
+#VoteKickVictim {
+	vertical-align: top;
+	horizontal-align: left;
+	color: rgb(236, 204, 22);
+	font-size: 20px;
+	margin-left: 40px;
+	text-shadow: 2px 2px 2px black;
+	font-weight: bold;
+	text-overflow: clip;
+    text-transform: uppercase;
+}
+
+.VoteKickYes {
+width: 140px;
+height: 40px;
+margin-top: 30px;
+background-color: rgb(61, 61, 61);
+opacity: .5;
+
+}
+
+.VoteKickYesLabel {
+    align: center center;
+    font-size: 24px;
+    color: #00ff40;
+    text-shadow: 2px 2px 2px black;
+}
+
+.VoteKickNo {
+    width: 140px;
+    height: 40px;
+    margin-top: 30px;
+    margin-left: 151px;
+    background-color: rgb(61, 61, 61);
+    opacity: .5;
+}
+
+.VoteKickNoLabel {
+    align: center center;
+    font-size: 24px;
+    color: #ff0000;
+    text-shadow: 2px 2px 2px black;
+}
+
+ #VoteKickCloseButton {
+	vertical-align: middle;
+	horizontal-align: right;
+	width: 18px;
+	height: 18px;
+	margin-right: 5px;
+}

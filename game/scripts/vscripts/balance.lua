@@ -12,17 +12,17 @@ goldBonusActive = false
 
 --After 2 minutes start tracking team sizes for bonus gold
 Timers:CreateTimer("timerPlayerCounts", {
-    endTime = 1,
+    endTime = 30,
     callback = function()
         GOODGUYSQTY = GetActivePlayerCountForTeam(DOTA_TEAM_GOODGUYS)
         BADGUYSQTY = GetActivePlayerCountForTeam(DOTA_TEAM_BADGUYS)
-      return 1
+      return 10
     end
 })
 
 --This shouldn't be here but we can organize later
 Timers:CreateTimer("timerGoldBonus", {
-    endTime = 390, --begin roughly 5min in
+    endTime = 390, --begin roughly 5min in 390
     callback = function()
         if (GOODGUYSQTY < BADGUYSQTY) then
             local multi = BADGUYSQTY - GOODGUYSQTY
@@ -30,14 +30,17 @@ Timers:CreateTimer("timerGoldBonus", {
             GrantBonusGold(DOTA_TEAM_GOODGUYS, GOLDBONUS)
             goldBonusActive = true
             BONUSTEAM = "RADIANT"
+            CustomGameEventManager:Send_ServerToAllClients("update_bonus_gold_display", { team = BONUSTEAM, gpm = GOLDBONUS*60 })
         elseif (BADGUYSQTY < GOODGUYSQTY) then
             local multi = GOODGUYSQTY - BADGUYSQTY
             GOLDBONUS = multi * GOLD_BONUS_PP_PS
             GrantBonusGold(DOTA_TEAM_BADGUYS, GOLDBONUS)
             goldBonusActive = true
             BONUSTEAM = "DIRE"
+            CustomGameEventManager:Send_ServerToAllClients("update_bonus_gold_display", { team = BONUSTEAM, gpm = GOLDBONUS*60 })
         else
             goldBonusActive = false
+            CustomGameEventManager:Send_ServerToAllClients("hide_bonus_gold_display", { message = "none"})
         end
       return 1
    end
@@ -52,13 +55,3 @@ function GrantBonusGold(team, amount)
         end
     end
 end
-
---Check status
-ChatCommand:LinkCommand("-goldbonus", "GoldBonusStatus")
-function GoldBonusStatus(keys)
-    if (goldBonusActive) then
-        GameRules:SendCustomMessage("<B><font color='#FFFF00'>Gold bonus is in effect for " .. BONUSTEAM .. " (" .. GOLDBONUS * 60 .. "GPM)", 0, 0)
-    else
-        GameRules:SendCustomMessage("<B><font color='#FFFF00'>Gold bonus is not active.", 0, 0)
-    end
-  end

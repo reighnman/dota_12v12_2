@@ -1,0 +1,14 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/bonus.css" />
+	</styles>
+ 	<scripts>
+	    <include src="file://{resources}/scripts/custom_game/bonus.js" />
+	</scripts>
+ 	<Panel hittest="false" class="BonusRoot">
+        <Panel hittest="true" id="BonusWindow">
+            <Label class="BonusLabel" text="#underdog_bonus" />
+            <Label id="BonusGoldLabel" text="+360GPM" />
+        </Panel>
+	</Panel>
+</root>

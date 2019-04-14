@@ -154,7 +154,7 @@ end
 function CountPlayers()
     local count = 0
     for i=0, 23 do
-          if PlayerResource:IsValidPlayerID(i) and (PlayerResource:GetConnectionState(i) == 1 or PlayerResource:GetConnectionState(i) == 2) then
+          if PlayerResource:IsValidPlayerID(i) and PlayerResource:GetConnectionState(i) == 2 then
             count = count + 1
         end
     end

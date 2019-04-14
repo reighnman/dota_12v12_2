@@ -388,8 +388,30 @@
 	width: 14px;
 	height:14px;
 }
+
  .not_local_player_team #DisableHelpButton,
 .is_local_player #DisableHelpButton
+{
+	visibility: collapse;
+}
+
+// Will probably have to come back and adjust but right now team only, need to figure out balance
+
+#VK {
+	horizontal-align: right;
+	color: #ff1717;
+	font-size: 13px;
+	font-weight: bold;
+	text-shadow: 2px 2px 2px black;
+	
+}
+
+.local_player_team #VK
+{
+	margin-right: 35px;
+}
+.is_local_player #VK,
+.not_local_player_team #VK,
 {
 	visibility: collapse;
 }

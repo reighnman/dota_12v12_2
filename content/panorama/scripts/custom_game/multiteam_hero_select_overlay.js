@@ -185,12 +185,12 @@ function UpdateTimer()
     var root = $.GetContextPanel().GetParent().GetParent().GetParent();
     var startingItemsLeftColumn = root.FindChildTraverse("StartingItemsLeftColumn");
     startingItemsLeftColumn.Children().forEach(function(child) {
-        if (child.BHasClass('PatreonBonusButtonContainer')) child.DeleteAsync(0);
+       // if (child.BHasClass('PatreonBonusButtonContainer')) child.DeleteAsync(0);
     });
     var inventoryStrategyControl = root.FindChildTraverse("InventoryStrategyControl");
     inventoryStrategyControl.style.marginTop = (46 - 32) + 'px';
 
-    var patreonBonusButton = $.CreatePanel("Panel", startingItemsLeftColumn, "");
-    patreonBonusButton.BLoadLayout("file://{resources}/layout/custom_game/multiteam_hero_select_overlay_patreon_bonus_button.xml", false, true)
-    startingItemsLeftColumn.MoveChildAfter(patreonBonusButton, startingItemsLeftColumn.GetChild(0));
+    //var patreonBonusButton = $.CreatePanel("Panel", startingItemsLeftColumn, "");
+    //patreonBonusButton.BLoadLayout("file://{resources}/layout/custom_game/multiteam_hero_select_overlay_patreon_bonus_button.xml", false, true)
+    //startingItemsLeftColumn.MoveChildAfter(patreonBonusButton, startingItemsLeftColumn.GetChild(0));
 })();

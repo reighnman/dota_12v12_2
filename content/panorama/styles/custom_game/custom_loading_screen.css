@@ -5,6 +5,7 @@
 
 #mega_bg
 {
-	horizontal-align: center;
+	horizontal-align: left;
 	vertical-align: center;
+	margin-left: 100px;
 }

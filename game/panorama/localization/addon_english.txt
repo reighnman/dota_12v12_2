@@ -4,6 +4,5 @@
 	"Tokens"
 	{
 	
-		"initiated_votekick"						"initiated_votekick"
 	}
 }

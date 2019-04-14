@@ -5,6 +5,16 @@
         <include src="file://{resources}/styles/custom_game/multiteam_flyout_scoreboard.css" />
     </styles>
 	<script>
+		function InitiateVoteKick()
+		{
+		    var initiator = Players.GetLocalPlayer();
+			var playerId = $.GetContextPanel().GetAttributeInt( "player_id", -1 );
+			if ( playerId !== -1 )
+			{
+				GameEvents.SendCustomGameEventToServer("initiate_vote_kick", { initiator: initiator, victim: playerId } );
+			}
+		}
+
 		function ToggleMute()
 		{
 			var playerId = $.GetContextPanel().GetAttributeInt( "player_id", -1 );
@@ -48,7 +58,8 @@
 					<Label id="HeroNameAndDescription" text="#custom_scoreboard_hero_name_and_desc" />
 				</Panel>
 				<Label id="TeammateGoldAmount" text="999" />
-				<ToggleButton id="DisableHelpButton" onactivate="ToggleDisableHelp();" onmouseover="DOTAShowTextTooltip(Disable Help)" onmouseout="DOTAHideTextTooltip()" />
+				<Label id="VK" text="VK" onactivate="InitiateVoteKick();" onmouseover="DOTAShowTextTooltip(#votekick)" onmouseout="DOTAHideTextTooltip()"/>
+				<ToggleButton id="DisableHelpButton" onactivate="ToggleDisableHelp();" onmouseover="DOTAShowTextTooltip(#disable_help)" onmouseout="DOTAHideTextTooltip()" />
 				<Button id="MuteButton" onactivate="ToggleMute();" />
 			</Panel>
 			<Panel id="TeamScoreSpace" class="ScoreCol_TeamScore" />
