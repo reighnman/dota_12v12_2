@@ -195,9 +195,32 @@ function CMegaDotaGameMode:OnEntityKilled( event )
 	        timeLeft = 1
 	    end
 
-	    killedUnit:SetTimeUntilRespawn(timeLeft)
+		killedUnit:SetTimeUntilRespawn(timeLeft)
+	
+		if killedUnit:HasModifier("modifier_lion_finger_of_death_kill_counter") then
+			local currentstack = killedUnit:GetModifierStackCount("modifier_lion_finger_of_death_kill_counter", unit)
+			local newstack = currentstack - 5
+			local minstack = 5
+			if (currentstack > minstack) then
+				killedUnit:SetModifierStackCount("modifier_lion_finger_of_death_kill_counter", unit, math.max(newstack, minstack))
+			end
+		end
+
+		if killedUnit:HasModifier("modifier_legion_commander_duel_damage_boost") then
+			local currentstack = killedUnit:GetModifierStackCount("modifier_legion_commander_duel_damage_boost", unit)
+			local newstack = currentstack - 100
+			local minstack = 100
+			if (currentstack > minstack) then
+				killedUnit:SetModifierStackCount("modifier_legion_commander_duel_damage_boost", unit, math.max(newstack, minstack))
+			end
+		end
+		
+		--Debug
+		--local modifierTable = killedUnit:FindAllModifiers()
+		--for i, modifier in ipairs(modifierTable) do
+		--	print( "modifierTable["..tostring(i).."] = "..modifier:GetName() )
+		--end
     end
-    
 end
 
 function CMegaDotaGameMode:OnNPCSpawned( event )
