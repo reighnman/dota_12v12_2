@@ -1,6 +1,6 @@
-// Based on Dota 12v12 credits darklord/dota 2 unofficial
 // Units File
 "DOTAUnits"
 {
 	"Version"	"1"
+
 }

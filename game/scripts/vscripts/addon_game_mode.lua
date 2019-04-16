@@ -214,12 +214,6 @@ function CMegaDotaGameMode:OnEntityKilled( event )
 				killedUnit:SetModifierStackCount("modifier_legion_commander_duel_damage_boost", unit, math.max(newstack, minstack))
 			end
 		end
-		
-		--Debug
-		--local modifierTable = killedUnit:FindAllModifiers()
-		--for i, modifier in ipairs(modifierTable) do
-		--	print( "modifierTable["..tostring(i).."] = "..modifier:GetName() )
-		--end
     end
 end
 
