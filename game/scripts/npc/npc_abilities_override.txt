@@ -104,7 +104,7 @@
 			"01"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"trueshot_ranged_attack_speed"	"10 20 30 40"
+				"trueshot_ranged_attack_speed"	"10 20 30 40"  // Was 20 40 60 80
 				"LinkedSpecialBonus"		"special_bonus_unique_drow_ranger_1"
 			}
 		}
