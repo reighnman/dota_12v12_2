@@ -13,7 +13,7 @@ VoteKick = VoteKick or {}
 --This shouldn't be here but we can organize later
    Timers:CreateTimer({
     useGameTime = false,
-    endTime = 45, 
+    endTime = 90, 
     callback = function()
       GameRules:SendCustomMessage("<B><font color='#FFFF00'> Thanks for playing Dota 12v12 2.0 - please post suggestions on the workshop group page.", 0, 0)
    end
