@@ -11,6 +11,7 @@ modifier_core_courier = {
 			MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
 			MODIFIER_PROPERTY_FIXED_DAY_VISION,
 			MODIFIER_PROPERTY_FIXED_NIGHT_VISION,
+			MODIFIER_PROPERTY_MODEL_CHANGE
 		}
 	end,
 	GetFixedDayVision = function() return 150 end,
@@ -45,5 +46,13 @@ function modifier_core_courier:GetModifierMoveSpeed_Absolute()
 		return 1600
 	else
 		return 800
+	end
+end
+
+function modifier_core_courier:GetModifierModelChange()
+	if self:GetParent():HasFlyMovementCapability() then
+		return "models/items/courier/arneyb_rabbit/arneyb_rabbit.vmdl_flying.vmdl"
+	else
+		return "models/items/courier/arneyb_rabbit/arneyb_rabbit.vmdl"
 	end
 end
