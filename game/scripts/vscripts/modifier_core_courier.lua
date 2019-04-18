@@ -51,7 +51,7 @@ end
 
 function modifier_core_courier:GetModifierModelChange()
 	if self:GetParent():HasFlyMovementCapability() then
-		return "models/items/courier/arneyb_rabbit/arneyb_rabbit.vmdl_flying.vmdl"
+		return "models/items/courier/arneyb_rabbit/arneyb_rabbit_flying.vmdl"
 	else
 		return "models/items/courier/arneyb_rabbit/arneyb_rabbit.vmdl"
 	end
