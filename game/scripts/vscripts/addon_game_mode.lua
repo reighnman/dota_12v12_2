@@ -197,7 +197,7 @@ function CMegaDotaGameMode:OnEntityKilled( event )
 
 		killedUnit:SetTimeUntilRespawn(timeLeft)
 	
-		if killedUnit:HasModifier("modifier_lion_finger_of_death_kill_counter") then
+--[[ 		if killedUnit:HasModifier("modifier_lion_finger_of_death_kill_counter") then
 			local currentstack = killedUnit:GetModifierStackCount("modifier_lion_finger_of_death_kill_counter", unit)
 			local newstack = currentstack - 1
 			local minstack = 5
@@ -213,7 +213,7 @@ function CMegaDotaGameMode:OnEntityKilled( event )
 			if (currentstack > minstack) then
 				killedUnit:SetModifierStackCount("modifier_legion_commander_duel_damage_boost", unit, math.max(newstack, minstack))
 			end
-		end
+		end ]]
     end
 end
 
