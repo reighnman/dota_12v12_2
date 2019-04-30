@@ -32,11 +32,7 @@ function modifier_silencer_new_int_steal:OnHeroKilled(keys)
 		end
         if keys.target and keys.target:IsRealHero() and (keys.reincarnate == false or keys.reincarnate == nil) and keys.target:GetTeam() ~= self:GetCaster():GetTeam() then
             if keys.attacker == self:GetCaster() then
-                if (self:GetStackCount() >= 100) then  --Quick cap for now
-                    self:SetStackCount(100)
-                else
-                    self:SetStackCount(self:GetStackCount()+bonus)
-                end
+                self:SetStackCount(self:GetStackCount()+bonus)
                 Timers:CreateTimer(1, function()
                     if keys.target:IsAlive() then
                         keys.target:AddNewModifier(self:GetCaster(), nil, "modifier_silencer_new_int_steal_debuff", {bonus = bonus})

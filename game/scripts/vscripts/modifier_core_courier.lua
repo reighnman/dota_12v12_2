@@ -49,10 +49,10 @@ function modifier_core_courier:GetModifierMoveSpeed_Absolute()
 	end
 end
 
-function modifier_core_courier:GetModifierModelChange()
+--[[ function modifier_core_courier:GetModifierModelChange()
 	if self:GetParent():HasFlyMovementCapability() then
 		return "models/items/courier/arneyb_rabbit/arneyb_rabbit_flying.vmdl"
 	else
 		return "models/items/courier/arneyb_rabbit/arneyb_rabbit.vmdl"
 	end
-end
+end ]]
