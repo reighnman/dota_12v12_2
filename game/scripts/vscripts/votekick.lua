@@ -100,7 +100,8 @@ end
 
 --Util
 function VoteCooldown()
-   voteTimer = true
+voteTimer = true
+
    Timers:CreateTimer({
     useGameTime = false,
     endTime = 120, 
